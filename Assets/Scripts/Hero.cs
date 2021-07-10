@@ -4,25 +4,78 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using PolyAndCode.UI;
 
-public class Hero : MonoBehaviour
+/// <summary>
+/// Where we store our hero dat
+/// e.g. level, image, name etc
+/// </summary>
+[System.Serializable]
+public struct HeroData
 {
+    public bool loaded;
+    public Sprite thumbnail;
+}
+
+public class Hero : MonoBehaviour, ICell
+{
+    //UI
     public Image Thumbnail;
     public LoadingSprite Loading;
+    public Text debugText;
 
-    public HeroData data;
+    //Data
+    HeroData data;
+    int displayIndex;
 
+    Barracks parentBarracks;
     public async UniTaskVoid PopulatAsyncVoid()
     {
-        Thumbnail.enabled = false;
+        
 
-        Loading.gameObject.SetActive(true);
+        if (!data.loaded)
+        {
+            Thumbnail.enabled = false;
 
-        //Hero sprite is loading
-        Thumbnail.sprite = await FindObjectOfType<ImageLoader>().LoadSpriteAsync();
+            Loading.gameObject.SetActive(true);
 
-        Loading.gameObject.SetActive(false);
+            data.loaded = true;
 
-        Thumbnail.enabled = true;
+            //We need to create a temp display index incase of fast scrolling
+            int tempDisplayIndex = displayIndex;
+
+            //If the data has not been loaded before - Lets load it now
+            //For the sake of this test - We are just loading the image, but this is where I would get the data from a server or local storage
+            data.thumbnail = await FindObjectOfType<ImageLoader>().LoadSpriteAsync();
+
+            //Go back and save this data to the barracks data structure
+            parentBarracks.heroData[tempDisplayIndex] = data;
+
+            Loading.gameObject.SetActive(false);
+
+            Thumbnail.enabled = true;
+
+            if (tempDisplayIndex != displayIndex)
+            {
+                //This is to catch if the user is scrolling faster than the data can be loaded
+                return;
+            }
+        }
+
+        
+
+        debugText.text = displayIndex.ToString();
+        Thumbnail.sprite = data.thumbnail;
     }
+
+    public void ConfigureCell(HeroData newData, int newDisplayIndex, Barracks myBarracks)
+    {
+
+        data = newData;
+        displayIndex = newDisplayIndex;
+        parentBarracks = myBarracks;
+
+        this.PopulatAsyncVoid().Forget();
+    }
+
 }

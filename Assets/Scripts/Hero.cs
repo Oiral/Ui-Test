@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using PolyAndCode.UI;
 
 /// <summary>
-/// Where we store our hero dat
+/// Where we store our hero data
 /// e.g. level, image, name etc
 /// </summary>
 [System.Serializable]
@@ -22,7 +22,6 @@ public class Hero : MonoBehaviour, ICell
     //UI
     public Image Thumbnail;
     public LoadingSprite Loading;
-    public Text debugText;
 
     //Data
     HeroData data;
@@ -31,8 +30,6 @@ public class Hero : MonoBehaviour, ICell
     Barracks parentBarracks;
     public async UniTaskVoid PopulatAsyncVoid()
     {
-        
-
         if (!data.loaded)
         {
             Thumbnail.enabled = false;
@@ -51,10 +48,6 @@ public class Hero : MonoBehaviour, ICell
             //Go back and save this data to the barracks data structure
             parentBarracks.heroData[tempDisplayIndex] = data;
 
-            Loading.gameObject.SetActive(false);
-
-            Thumbnail.enabled = true;
-
             if (tempDisplayIndex != displayIndex)
             {
                 //This is to catch if the user is scrolling faster than the data can be loaded
@@ -62,9 +55,10 @@ public class Hero : MonoBehaviour, ICell
             }
         }
 
-        
+        Loading.gameObject.SetActive(false);
 
-        debugText.text = displayIndex.ToString();
+        Thumbnail.enabled = true;
+
         Thumbnail.sprite = data.thumbnail;
     }
 

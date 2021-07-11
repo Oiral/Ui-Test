@@ -20,15 +20,10 @@ public class ScreenSafe : MonoBehaviour
 
     void Refresh()
     {
-        Rect safeArea = GetSafeArea();
+        Rect safeArea = Screen.safeArea;
 
         if (safeArea != LastSafeArea)
             ApplySafeArea(safeArea);
-    }
-
-    Rect GetSafeArea()
-    {
-        return Screen.safeArea;
     }
 
     void ApplySafeArea(Rect r)

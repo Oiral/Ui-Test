@@ -13,7 +13,6 @@ public class LoadingSprite : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
     }
 
-    //Class to be attached to a loading icon
     private void Update()
     {
         //The negative is to make the variable rotate speed more intuitive to input

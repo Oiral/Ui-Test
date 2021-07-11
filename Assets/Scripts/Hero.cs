@@ -28,6 +28,7 @@ public class Hero : MonoBehaviour, ICell
     int displayIndex;
 
     Barracks parentBarracks;
+
     public async UniTaskVoid PopulatAsyncVoid()
     {
         if (!data.loaded)

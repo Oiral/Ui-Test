@@ -7,8 +7,6 @@ using PolyAndCode.UI;
 
 public class Barracks : MonoBehaviour, IRecyclableScrollRectDataSource
 {
-    //public Hero HeroPrefab;
-    public Transform ContentRoot;
     public List<Sprite> ThumbnailSprites = new List<Sprite>();
     public int testQuantity = 100;
 

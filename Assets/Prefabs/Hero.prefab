@@ -215,7 +215,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Thumbnail: {fileID: 3492741428387425956}
   Loading: {fileID: 7262761784153523193}
-  debugText: {fileID: 0}
 --- !u!1 &8780900723508366775
 GameObject:
   m_ObjectHideFlags: 0
